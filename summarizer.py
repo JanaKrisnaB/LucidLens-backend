@@ -1,6 +1,6 @@
 from transformers import pipeline
 
-summarizer_pipeline = pipeline("summarization", model="t5-small")
+summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
 
 def summarize_text(text, count, max_length=None, min_length=None):
     if len(text.strip()) == 0:
