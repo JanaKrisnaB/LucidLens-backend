@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+pillow
+easyocr
+opencv-python
+transformers
+torch
+safetensors
+huggingface_hub
