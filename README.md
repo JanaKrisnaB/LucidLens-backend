@@ -13,12 +13,12 @@ This repository contains the **FastAPI backend** that exposes REST API endpoints
 ✅ Designed for easy deployment to Render, Railway, or similar platforms
 
 ## 📂 Project Structure
-├── app.py # FastAPI application entry point
-├── summarizer.py # Summarization logic
-├── explainer.py # Explanation / paraphrasing logic
-├── utils.py
-├── requirements.txt # Python dependencies
-└── README.md # Project documentation
+── app.py # FastAPI application entry point
+── summarizer.py # Summarization logic
+── explainer.py # Explanation / paraphrasing logic
+── utils.py
+── requirements.txt # Python dependencies
+── README.md # Project documentation
 
 ## ⚙️ Requirements
 
