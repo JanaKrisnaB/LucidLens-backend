@@ -1,6 +1,7 @@
-from transformers import pipeline
-
-summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+import os
+import google.generativeai as genai
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 def summarize_text(text, count, max_length=None, min_length=None):
     if len(text.strip()) == 0:
@@ -8,10 +9,12 @@ def summarize_text(text, count, max_length=None, min_length=None):
     if count < 10:
         return "Input text too short to summarize."
 
-    if not max_length or not min_length:
-        max_length = min(60, count)
-        min_length = min(20, count // 2)
-    max_length = max(max_length, min_length + 10)
+    # You can guide Gemini with a summarization prompt
+    prompt = f"""
+    Summarize the following text in a clear and concise way.
+    Text: {text}
+    """
 
-    summary = summarizer_pipeline(text, max_length=max_length, min_length=min_length, do_sample=False)[0]["summary_text"]
-    return summary
+    response = model.generate_content(prompt)
+
+    return response.text.strip()
