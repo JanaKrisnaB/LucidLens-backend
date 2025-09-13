@@ -1,8 +1,19 @@
-from transformers import pipeline
-
-explainer_pipeline = pipeline("text2text-generation", model="t5-base")
+import os
+import google.generativeai as genai
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 def explain_text(text):
-    prompt = f"simplify this so that it is easy to understand: {text}"
-    output = explainer_pipeline(prompt, max_length=150, do_sample=False)
-    return output[0]["generated_text"]
+    """
+    Simplifies/explains the input text using Gemini.
+    """
+    if len(text.strip()) == 0:
+        return "Input text is empty."
+
+    # Build a clear instruction prompt for Gemini
+    prompt = f"""
+    Simplify the following text so that it is easy to understand:
+    {text}
+    """
+    response = model.generate_content(prompt)
+    return response.text.strip()
