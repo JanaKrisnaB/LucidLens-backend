@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI(title="🖼️ Image to Text Summarizer & Explainer")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -50,3 +50,4 @@ async def process_image(
         return JSONResponse({"error": "Invalid mode selected."}, status_code=400)
 
     return JSONResponse({"result": result})
+
