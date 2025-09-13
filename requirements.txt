@@ -4,7 +4,6 @@ python-multipart
 pillow
 easyocr
 opencv-python
-transformers
+google-generativeai
 torch
 safetensors
-huggingface_hub
