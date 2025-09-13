@@ -1,16 +1,16 @@
-# ✨ LucidLens Backend
+# LucidLens Backend 🔎
 
 LucidLens is an AI-powered service that can **summarize, explain, and view text**.  
 This repository contains the **FastAPI backend** that exposes REST API endpoints for these capabilities.
 
 ---
 
-## 🚀 Features
+## Features
 
-✅ Summarize input text into concise summaries  
-✅ Explain or paraphrase text for better understanding  
-✅ View and process original text  
-✅ Designed for easy deployment to Render, Railway, or similar platforms
+1. Summarize input text into concise summaries  
+2. Explain or paraphrase text for better understanding  
+3. View and process original text  
+4. Designed for easy deployment to Render, Railway, or similar platforms
 
 ## 📂 Project Structure
 
