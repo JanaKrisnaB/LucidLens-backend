@@ -1,13 +1,60 @@
-import easyocr
+import cv2
+import numpy as np
+from PIL import Image
+import io
+import os
+import google.generativeai as genai
 
-# load once (important, otherwise memory heavy)
-reader = easyocr.Reader(['en'])
+# Configure Gemini
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+model = genai.GenerativeModel("gemini-2.0-flash")
 
-def ocr_text(file_path: str):
+def preprocess_image(img_path):
     """
-    Extract text and word count using EasyOCR.
+    Preprocess the image using OpenCV before OCR.
+    Steps: grayscale → denoise → threshold → resize
     """
-    results = reader.readtext(file_path, detail=0)  # only text
-    text = " ".join(results)
-    word_count = len(text.split())
-    return text, word_count
+    img = cv2.imread(img_path, cv2.IMREAD_COLOR)
+
+    # Convert to grayscale
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # Denoise
+    blur = cv2.GaussianBlur(gray, (5, 5), 0)
+
+    # Thresholding (binary image)
+    _, thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+    # Optional: resize (improves OCR for small text)
+    scale = 2
+    resized = cv2.resize(thresh, (img.shape[1]*scale, img.shape[0]*scale))
+
+    # Save preprocessed image temporarily
+    temp_path = "processed.png"
+    cv2.imwrite(temp_path, resized)
+
+    return temp_path
+
+
+def ocr_text(img_path):
+    """
+    Performs OCR using Gemini Vision API after preprocessing.
+    """
+    processed_path = preprocess_image(img_path)
+
+    # Open image as binary
+    with open(processed_path, "rb") as f:
+        img_bytes = f.read()
+
+    # Send image to Gemini
+    response = model.generate_content(
+        [
+            {"mime_type": "image/png", "data": img_bytes},
+            "Extract all readable text from this image."
+        ]
+    )
+
+    text = response.text.strip()
+    count = len(text.split())
+
+    return text, count
