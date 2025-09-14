@@ -1,13 +1,13 @@
-import easyocr
+import pytesseract
+from PIL import Image
 
 def ocr_text(img_path):
-    '''Extracts text and counts words.'''
-    reader = easyocr.Reader(['en'])
-    result = reader.readtext(img_path)
-    op = ""
-    count = 0
-    for (bbox, text, prob) in result:
-        if prob:
-            count += len(text.split(" "))
-            op += "\n" + text
-    return op, count
+    """Extracts text from image using Tesseract and counts words."""
+    img = Image.open(img_path)
+    text = pytesseract.image_to_string(img)
+
+    # Count words
+    words = text.split()
+    count = len(words)
+
+    return text.strip(), count
