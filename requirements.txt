@@ -2,7 +2,6 @@ fastapi
 uvicorn
 python-multipart
 pillow
-easyocr
-opencv-python
-torch
-safetensors
+opencv-python-headless
+google-generativeai
+numpy
